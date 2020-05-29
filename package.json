@@ -2,7 +2,8 @@
   "name": "vuerx-property-decorator",
   "version": "0.0.1",
   "description": "fritsstegmann/vuerx-property-decorator",
-  "main": "rollup.config.js",
+  "main": "lib/vuerx-property-decorator.umd.js",
+  "module": "lib/vuerx-property-decorator.js",
   "scripts": {
     "build": "tsc -p ./src/tsconfig.json && rollup -c",
     "test": "jest"
@@ -20,7 +21,7 @@
     "typescript": "^3.5.2",
     "vue": "^2.6.10"
   },
-  "typings": "./lib/vue-property-decorator.d.ts",
+  "typings": "./lib/vuerx-property-decorator.d.ts",
   "dependencies": {
     "vue-class-component": "^7.1.0"
   },
@@ -29,7 +30,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kaorun343/vue-property-decorator.git"
+    "url": "https://github.com/fritsstegmann/vuerx-property-decorator.git"
   },
   "author": "fstegmann@gmail.com",
   "license": "MIT"
