@@ -1,7 +1,6 @@
 /// <reference types='reflect-metadata'/>
-import Vue from 'vue';
 import {createDecorator} from 'vue-class-component'
-import {isObservable, Observable, Subscription as RxSub} from "rxjs";
+import {Observable} from "rxjs";
 
 export function DomStream() {
     return (target: any, key: string) => {
@@ -18,37 +17,28 @@ export function DomStream() {
     }
 }
 
-export function defineReactive (vm: any, key: string, val: any) {
-    if (key in vm) {
-        vm[key] = val;
-    } else {
-        // @ts-ignore
-        Vue.util.defineReactive(vm, key, val);
-    }
-}
-
-export function Subscription(observable: any) {
+export function Subscription() {
 
     return (target: any, key: string) => {
-        createDecorator((componentOptions, k) => {
-            target.$observables = target.$observables || {}
-
+        createDecorator((componentOptions, k: string) => {
             // @ts-ignore
-            target._subscription = target._subscription || new RxSub()
-            defineReactive(target, key, undefined)
+            if (typeof componentOptions.subscriptions == 'function') {
+                // @ts-ignore
+                let obs: any = componentOptions.subscriptions()
+                obs[k] = new Observable<any>()
 
-            // @ts-ignore
-            const obs = target.$observables[k] = observable
-            if (!isObservable(obs)) {
-                console.warn(
-                    'Invalid Observable found in subscriptions option with key "' + key + '".',
-                    target
-                )
-                return
+                // @ts-ignore
+                componentOptions.subscriptions = function() {
+                    return obs;
+                }
+            } else {
+                // @ts-ignore
+                componentOptions.subscriptions = function () {
+                    return {
+                        [k]: new Observable<any>(),
+                    }
+                }
             }
-            target._subscription.add(obs.subscribe((value: any) => {
-                target[key] = value
-            }, (error: any) => { throw error }))
         })(target, key)
     }
 }
