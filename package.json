@@ -17,9 +17,11 @@
     "jest": "^24.8.0",
     "reflect-metadata": "^0.1.13",
     "rollup": "^1.15.6",
+    "rxjs": "^6.5.5",
     "ts-jest": "^24.0.2",
     "typescript": "^3.5.2",
-    "vue": "^2.6.10"
+    "vue": "^2.6.10",
+    "vue-rx": "^6.2.0"
   },
   "typings": "./lib/vuerx-property-decorator.d.ts",
   "dependencies": {
